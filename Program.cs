@@ -153,6 +153,22 @@
         }
 
 
+        static double FindMinScore(double[] score, int validRecord)
+        {
+            double minScore = score[0];
+
+            if (score.Length > 0)
+            {
+                for (int i = 1; i < validRecord; i++)
+                {
+                    if (score[i] < minScore)
+                    {
+                        minScore = score[i];
+                    }
+                }
+            }
+            return minScore;
+        }
 
 
 
@@ -180,6 +196,9 @@
 
                 double maxScore = FindMaxScore(score);
                 Console.WriteLine($"Max Score: {maxScore}");
+
+                double minScore = FindMinScore(score, validRecords);
+                Console.WriteLine($"Min Score: {minScore}");
 
             }
 
