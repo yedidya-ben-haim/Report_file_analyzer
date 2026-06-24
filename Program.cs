@@ -135,7 +135,22 @@
         }
 
 
+        static double FindMaxScore(double[] score)
+        {
+            double maxScore = score[0];
 
+            if (score.Length > 0)
+            {
+                foreach (double s in score)
+                {
+                    if (s > maxScore)
+                    {
+                        maxScore = s;
+                    }
+                }
+            }
+            return maxScore;
+        }
 
 
 
@@ -154,14 +169,21 @@
 
 
             string[]? alllines = LoadFile("reports.txt");
-            int validRecords = ProcessReports(alllines, unitName, reportType, priority, score, status);
-            Console.WriteLine("===Report Statistics ===");
-            Console.WriteLine($"Total Reports: {validRecords}");
+            if (alllines != null)
+            {
+                int validRecords = ProcessReports(alllines, unitName, reportType, priority, score, status);
+                Console.WriteLine("===Report Statistics ===");
+                Console.WriteLine($"Total Reports: {validRecords}");
 
-            double averageScore = CalculateAverage(score, validRecords);
-            Console.WriteLine($"Average Score: {averageScore:F2}");
+                double averageScore = CalculateAverage(score, validRecords);
+                Console.WriteLine($"Average Score: {averageScore:F2}");
 
-            
+                double maxScore = FindMaxScore(score);
+                Console.WriteLine($"Max Score: {maxScore}");
+
+            }
+
+
 
         }
     }
