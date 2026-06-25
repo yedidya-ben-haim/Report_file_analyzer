@@ -24,4 +24,4 @@ Uniform,RECON,5,91.0,Pending
 Victor,analyze,4,82.3,Approved
 Whiskey,Collect,3,  75.5  ,Approved
 Yankee,Intel,3,100.0,Approved
-Zulu,Recon,1,2.0,Rejected
+Zulu,Recon,1,0.0,Rejected

@@ -1,9 +1,14 @@
-﻿namespace ReportFileAnalyzer
+﻿using System;
+using System.IO;
+
+
+
+namespace ReportFileAnalyzer
 {
 
     enum ReportTypes { Collect, Analyze, Recon, Intel };
     enum Statuses { Pending, Approved, Rejected };
-    class Project
+    class Program
     {
         static string[]? LoadFile(string filePath)
         {
@@ -171,6 +176,25 @@
         }
 
 
+        static int CountByType(ReportTypes[] reportTypes, ReportTypes typeSelected, int validRecords)
+        {
+            int count = 0;
+
+            for (int i = 0;i < validRecords; i++)
+            {
+                if (reportTypes[i] == typeSelected)
+                {
+                    count++;
+                }
+
+            }
+            return count;
+        }
+
+
+
+
+
 
 
         static void Main()
@@ -188,17 +212,32 @@
             if (alllines != null)
             {
                 int validRecords = ProcessReports(alllines, unitName, reportType, priority, score, status);
-                Console.WriteLine("===Report Statistics ===");
+                Console.WriteLine("\n===Report Statistics ===");
                 Console.WriteLine($"Total Reports: {validRecords}");
 
                 double averageScore = CalculateAverage(score, validRecords);
                 Console.WriteLine($"Average Score: {averageScore:F2}");
 
                 double maxScore = FindMaxScore(score);
-                Console.WriteLine($"Max Score: {maxScore}");
+                Console.WriteLine($"Highest Score: {maxScore}");
 
                 double minScore = FindMinScore(score, validRecords);
-                Console.WriteLine($"Min Score: {minScore}");
+                Console.WriteLine($"Lowest Score: {minScore}");
+
+                Console.WriteLine("\n===Reports by Type ===");
+                int numOfCollect = CountByType(reportType, ReportTypes.Collect, validRecords);
+                int numOfAnalyze = CountByType(reportType, ReportTypes.Analyze, validRecords);
+                int numOfRecon = CountByType(reportType, ReportTypes.Recon, validRecords);
+                int numOfIntel = CountByType(reportType, ReportTypes.Intel, validRecords);
+
+                Console.WriteLine($"Collect: {numOfCollect}");
+                Console.WriteLine($"Analyze: {numOfAnalyze}");
+                Console.WriteLine($"Recon: {numOfRecon}");
+                Console.WriteLine($"Intel: {numOfIntel}");
+
+
+
+
 
             }
 
