@@ -5,6 +5,7 @@ namespace ReportFileAnalyzer
 
     enum ReportTypes { Collect, Analyze, Recon, Intel };
     enum Statuses { Pending, Approved, Rejected };
+    
     class Program
     {
         static string[]? LoadFile(string filePath)
@@ -22,7 +23,7 @@ namespace ReportFileAnalyzer
                     }
                     else
                     {
-                        Console.WriteLine($"File loaded: {numOfLine} lines found");
+                        File.AppendAllText("output.txt" ,$"\n\nFile loaded: {numOfLine} lines found");
                         return alllines;
 
                     }
@@ -113,7 +114,11 @@ namespace ReportFileAnalyzer
                     correctLines++;
                 }
             }
-            Console.WriteLine($"Stored {correctLines} valid records analysis.");
+
+            File.AppendAllText("output.txt", "\n\nProcessing complete.");
+            File.AppendAllText("output.txt", $"\nValid records: {correctLines}");
+            File.AppendAllText("output.txt", $"\nInvalid records: {fileLines.Length - correctLines}");
+            File.AppendAllText("output.txt", $"\nStored {correctLines} valid records analysis.");
             return correctLines;
 
         }
@@ -207,49 +212,48 @@ namespace ReportFileAnalyzer
 
         static void DisplayBasicStatistics(double[] score, int validRecord)
         {
-            Console.WriteLine("\n===Report Statistics ===");
-            Console.WriteLine($"Total Reports: {validRecord}");
+            File.AppendAllText("output.txt", "\n\n===Report Statistics ===");
+            File.AppendAllText("output.txt", $"\nTotal Reports: {validRecord}");
 
             double averageScore = CalculateAverage(score, validRecord);
-            Console.WriteLine($"Average Score: {averageScore:F2}");
+            File.AppendAllText("output.txt", $"\nAverage Score: {averageScore:F2}");
 
             double maxScore = FindMaxScore(score);
-            Console.WriteLine($"Highest Score: {maxScore}");
+            File.AppendAllText("output.txt", $"\nHighest Score: {maxScore}");
 
             double minScore = FindMinScore(score, validRecord);
-            Console.WriteLine($"Lowest Score: {minScore}");
+            File.AppendAllText("output.txt", $"\nLowest Score: {minScore}");
         }
 
 
         static void DisplayStatusCounts(Statuses[] statusArry, int validRecords)
         {
-            Console.WriteLine("\n===Reports by Status ===");
+            File.AppendAllText("output.txt", "\n\n===Reports by Status ===");
 
             int numOfRejected = CountByStatus(statusArry, Statuses.Rejected, validRecords);
             int numOfApproved = CountByStatus(statusArry, Statuses.Approved, validRecords);
             int numOfPending = CountByStatus(statusArry, Statuses.Pending, validRecords);
 
-            Console.WriteLine($"Rejected: {numOfRejected}");
-            Console.WriteLine($"Approved: {numOfApproved}");
-            Console.WriteLine($"Pending: {numOfPending}");
+            File.AppendAllText("output.txt", $"\nRejected: {numOfRejected}");
+            File.AppendAllText("output.txt", $"\nApproved: {numOfApproved}");
+            File.AppendAllText("output.txt", $"\nPending: {numOfPending}");
         }
 
 
         static void DisplayTypeCounts(ReportTypes[] reportTypes, int validRecords)
         {
-            Console.WriteLine("\n===Reports by Type ===");
+            File.AppendAllText("output.txt", "\n\n===Reports by Type ===");
 
             int numOfCollect = CountByType(reportTypes, ReportTypes.Collect, validRecords);
             int numOfAnalyze = CountByType(reportTypes, ReportTypes.Analyze, validRecords);
             int numOfRecon = CountByType(reportTypes, ReportTypes.Recon, validRecords);
             int numOfIntel = CountByType(reportTypes, ReportTypes.Intel, validRecords);
 
-            Console.WriteLine($"Collect: {numOfCollect}");
-            Console.WriteLine($"Analyze: {numOfAnalyze}");
-            Console.WriteLine($"Recon: {numOfRecon}");
-            Console.WriteLine($"Intel: {numOfIntel}");
+            File.AppendAllText("output.txt", $"\nCollect: {numOfCollect}");
+            File.AppendAllText("output.txt", $"\nAnalyze: {numOfAnalyze}");
+            File.AppendAllText("output.txt", $"\nRecon: {numOfRecon}");
+            File.AppendAllText("output.txt", $"\nIntel: {numOfIntel}");
         }
-
 
 
         static void DisplayHighestPriorityApproved(string[] unitNameArry, ReportTypes[] reportTypeArry,
@@ -267,7 +271,7 @@ namespace ReportFileAnalyzer
                     }
                 }
             }
-            Console.WriteLine("\n===Highest Priority Approved Report ===");
+            File.AppendAllText("output.txt", "\n\n===Highest Priority Approved Report ===");
             for (int i = 0; i < validRecord; i++)
             {
                 
@@ -276,10 +280,10 @@ namespace ReportFileAnalyzer
                 {
                     if (priorityArry[i] == maxPriority)
                     {
-                        Console.WriteLine($"\nUnit: {unitNameArry[i]}");
-                        Console.WriteLine($"Type: {reportTypeArry[i]}");
-                        Console.WriteLine($"Priority: {priorityArry[i]}");
-                        Console.WriteLine($"Score: {scoreArry[i]:F2}");
+                        File.AppendAllText("output.txt", $"\n\nUnit: {unitNameArry[i]}");
+                        File.AppendAllText("output.txt", $"\nType: {reportTypeArry[i]}");
+                        File.AppendAllText("output.txt", $"\nPriority: {priorityArry[i]}");
+                        File.AppendAllText("output.txt", $"\nScore: {scoreArry[i]:F2}");
 
                     }
                 }
@@ -302,18 +306,18 @@ namespace ReportFileAnalyzer
                 numOfScoreArry[priorityArry[i]]++;
 
             }
-            Console.WriteLine("\n===Average Score by Priority ===");
+            File.AppendAllText("output.txt", "\n\n===Average Score by Priority ===");
 
             for (int i = 1; i< sumScoreArry.Length; i++)
             {
                 if (sumScoreArry[i] == 0)
                 {
-                    Console.WriteLine($"Priority {i}: No reports");
+                    File.AppendAllText("output.txt", $"\nPriority {i}: No reports");
                 }
                 else
                 {
                     double average = sumScoreArry[i] / numOfScoreArry[i];
-                    Console.WriteLine($"Priority {i}: {average:F2}");
+                    File.AppendAllText("output.txt", $"\nPriority {i}: {average:F2}");
 
                 }
             }  
@@ -340,7 +344,8 @@ namespace ReportFileAnalyzer
 
 
 
-
+            File.WriteAllText("output.txt", "===ReportFileAnalyzer===");
+            
             string[]? alllines = LoadFile("reports.txt");
             if (alllines != null)
             {

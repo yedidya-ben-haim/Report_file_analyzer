@@ -1,0 +1,44 @@
+===ReportFileAnalyzer===
+
+File loaded: 27 lines found
+
+Processing complete.
+Valid records: 23
+Invalid records: 4
+Stored 23 valid records analysis.
+
+===Report Statistics ===
+Total Reports: 23
+Average Score: 71.97
+Highest Score: 100
+Lowest Score: 0
+
+===Reports by Status ===
+Rejected: 4
+Approved: 15
+Pending: 4
+
+===Reports by Type ===
+Collect: 7
+Analyze: 5
+Recon: 6
+Intel: 5
+
+===Highest Priority Approved Report ===
+
+Unit: Bravo
+Type: Analyze
+Priority: 5
+Score: 92.00
+
+Unit: Oscar
+Type: Recon
+Priority: 5
+Score: 99.80
+
+===Average Score by Priority ===
+Priority 1: 34.98
+Priority 2: 62.10
+Priority 3: 79.53
+Priority 4: 84.55
+Priority 5: 93.05
