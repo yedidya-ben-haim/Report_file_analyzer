@@ -1,10 +1,4 @@
-﻿using System;
-using System.IO;
-using System.Net.NetworkInformation;
-
-
-
-namespace ReportFileAnalyzer
+﻿namespace ReportFileAnalyzer
 {
 
     enum ReportTypes { Collect, Analyze, Recon, Intel };
@@ -197,7 +191,7 @@ namespace ReportFileAnalyzer
         {
             int count = 0;
 
-            for (int i = 0;i < validRecords; i++)
+            for (int i = 0; i < validRecords; i++)
             {
                 if (reportTypes[i] == typeSelected)
                 {
@@ -256,6 +250,46 @@ namespace ReportFileAnalyzer
 
 
 
+        static void DisplayHighestPriorityApproved(string[] unitNameArry, ReportTypes[] reportTypeArry,
+            int[] priorityArry, double[] scoreArry, Statuses[] statusAryy, int validRecord)
+        {
+            int maxPriority = 0;
+
+            for (int i = 0; i < validRecord; i++)
+            {
+                if (statusAryy[i] == Statuses.Approved)
+                {
+                    if (priorityArry[i] > maxPriority)
+                    {
+                        maxPriority = priorityArry[i];
+                    }
+                }
+            }
+            for (int i = 0; i < validRecord; i++)
+            {
+                if (statusAryy[i] == Statuses.Approved)
+                {
+                    if (priorityArry[i] == maxPriority)
+                    {
+                        Console.WriteLine("\n===Highest Priority Approved Report ===");
+                        Console.WriteLine($"Unit: {unitNameArry[i]}");
+                        Console.WriteLine($"Type: {reportTypeArry[i]}");
+                        Console.WriteLine($"Priority: {priorityArry[i]}");
+                        Console.WriteLine($"Score: {scoreArry[i]}");
+
+                    }
+                }
+            }
+
+
+        }
+
+
+
+
+        
+
+
 
 
 
@@ -285,8 +319,9 @@ namespace ReportFileAnalyzer
                 // Count By Type
                 DisplayTypeCounts(reportType, validRecords);
 
-                
-                
+                DisplayHighestPriorityApproved(unitName, reportType, priority, score, status, validRecords);
+
+
 
 
             }
