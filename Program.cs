@@ -239,6 +239,27 @@ namespace ReportFileAnalyzer
         }
 
 
+        static void DisplayTypeCounts(ReportTypes[] reportTypes, int validRecords)
+        {
+            Console.WriteLine("\n===Reports by Type ===");
+
+            int numOfCollect = CountByType(reportTypes, ReportTypes.Collect, validRecords);
+            int numOfAnalyze = CountByType(reportTypes, ReportTypes.Analyze, validRecords);
+            int numOfRecon = CountByType(reportTypes, ReportTypes.Recon, validRecords);
+            int numOfIntel = CountByType(reportTypes, ReportTypes.Intel, validRecords);
+
+            Console.WriteLine($"Collect: {numOfCollect}");
+            Console.WriteLine($"Analyze: {numOfAnalyze}");
+            Console.WriteLine($"Recon: {numOfRecon}");
+            Console.WriteLine($"Intel: {numOfIntel}");
+        }
+
+
+
+
+
+
+
         static void Main()
         {
             string[] unitName = new string[100];
@@ -262,17 +283,7 @@ namespace ReportFileAnalyzer
                 DisplayStatusCounts(status, validRecords);
 
                 // Count By Type
-                Console.WriteLine("\n===Reports by Type ===");
-
-                int numOfCollect = CountByType(reportType, ReportTypes.Collect, validRecords);
-                int numOfAnalyze = CountByType(reportType, ReportTypes.Analyze, validRecords);
-                int numOfRecon = CountByType(reportType, ReportTypes.Recon, validRecords);
-                int numOfIntel = CountByType(reportType, ReportTypes.Intel, validRecords);
-
-                Console.WriteLine($"Collect: {numOfCollect}");
-                Console.WriteLine($"Analyze: {numOfAnalyze}");
-                Console.WriteLine($"Recon: {numOfRecon}");
-                Console.WriteLine($"Intel: {numOfIntel}");
+                DisplayTypeCounts(reportType, validRecords);
 
                 
                 
