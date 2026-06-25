@@ -1,4 +1,6 @@
-﻿namespace ReportFileAnalyzer
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace ReportFileAnalyzer
 {
 
     enum ReportTypes { Collect, Analyze, Recon, Intel };
@@ -265,17 +267,19 @@
                     }
                 }
             }
+            Console.WriteLine("\n===Highest Priority Approved Report ===");
             for (int i = 0; i < validRecord; i++)
             {
+                
+
                 if (statusAryy[i] == Statuses.Approved)
                 {
                     if (priorityArry[i] == maxPriority)
                     {
-                        Console.WriteLine("\n===Highest Priority Approved Report ===");
-                        Console.WriteLine($"Unit: {unitNameArry[i]}");
+                        Console.WriteLine($"\nUnit: {unitNameArry[i]}");
                         Console.WriteLine($"Type: {reportTypeArry[i]}");
                         Console.WriteLine($"Priority: {priorityArry[i]}");
-                        Console.WriteLine($"Score: {scoreArry[i]}");
+                        Console.WriteLine($"Score: {scoreArry[i]:F2}");
 
                     }
                 }
@@ -285,9 +289,41 @@
         }
 
 
+        static void DisplayAverageByPriority(int[] priorityArry, double[] scoreArry, int validRecord)
+        {
+
+            double[] sumScoreArry = new double[6];
+            int[] numOfScoreArry = new int[6];
+
+            for (int i = 0; i < validRecord; i++)
+            {
+
+                sumScoreArry[priorityArry[i]] += scoreArry[i];
+                numOfScoreArry[priorityArry[i]]++;
+
+            }
+            Console.WriteLine("\n===Average Score by Priority ===");
+
+            for (int i = 1; i< sumScoreArry.Length; i++)
+            {
+                if (sumScoreArry[i] == 0)
+                {
+                    Console.WriteLine($"Priority {i}: No reports");
+                }
+                else
+                {
+                    double average = sumScoreArry[i] / numOfScoreArry[i];
+                    Console.WriteLine($"Priority {i}: {average:F2}");
+
+                }
+            }  
 
 
-        
+
+        }
+
+
+
 
 
 
@@ -319,9 +355,11 @@
                 // Count By Type
                 DisplayTypeCounts(reportType, validRecords);
 
+                // Display Highest Priority Approved
                 DisplayHighestPriorityApproved(unitName, reportType, priority, score, status, validRecords);
 
-
+                // Display Average By Priority
+                DisplayAverageByPriority(priority, score, validRecords);
 
 
             }
