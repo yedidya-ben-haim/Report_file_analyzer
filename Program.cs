@@ -176,6 +176,22 @@ namespace ReportFileAnalyzer
         }
 
 
+        static int CountByStatus(Statuses[] statusArry, Statuses statusSelected, int validRecords)
+        {
+            int count = 0;
+
+            for (int i = 0; i < validRecords; i++)
+            {
+                if (statusArry[i] == statusSelected)
+                {
+                    count++;
+                }
+
+            }
+            return count;
+        }
+
+
         static int CountByType(ReportTypes[] reportTypes, ReportTypes typeSelected, int validRecords)
         {
             int count = 0;
@@ -192,7 +208,20 @@ namespace ReportFileAnalyzer
         }
 
 
+        static void DisplayBasicStatistics(double[] score, int validRecord)
+        {
+            Console.WriteLine("\n===Report Statistics ===");
+            Console.WriteLine($"Total Reports: {validRecord}");
 
+            double averageScore = CalculateAverage(score, validRecord);
+            Console.WriteLine($"Average Score: {averageScore:F2}");
+
+            double maxScore = FindMaxScore(score);
+            Console.WriteLine($"Highest Score: {maxScore}");
+
+            double minScore = FindMinScore(score, validRecord);
+            Console.WriteLine($"Lowest Score: {minScore}");
+        }
 
 
 
@@ -212,19 +241,15 @@ namespace ReportFileAnalyzer
             if (alllines != null)
             {
                 int validRecords = ProcessReports(alllines, unitName, reportType, priority, score, status);
-                Console.WriteLine("\n===Report Statistics ===");
-                Console.WriteLine($"Total Reports: {validRecords}");
 
-                double averageScore = CalculateAverage(score, validRecords);
-                Console.WriteLine($"Average Score: {averageScore:F2}");
+                DisplayBasicStatistics(score, validRecords);
 
-                double maxScore = FindMaxScore(score);
-                Console.WriteLine($"Highest Score: {maxScore}");
 
-                double minScore = FindMinScore(score, validRecords);
-                Console.WriteLine($"Lowest Score: {minScore}");
 
+
+                // Count By Type
                 Console.WriteLine("\n===Reports by Type ===");
+
                 int numOfCollect = CountByType(reportType, ReportTypes.Collect, validRecords);
                 int numOfAnalyze = CountByType(reportType, ReportTypes.Analyze, validRecords);
                 int numOfRecon = CountByType(reportType, ReportTypes.Recon, validRecords);
@@ -235,8 +260,16 @@ namespace ReportFileAnalyzer
                 Console.WriteLine($"Recon: {numOfRecon}");
                 Console.WriteLine($"Intel: {numOfIntel}");
 
+                // Count By Status
+                Console.WriteLine("\n===Reports by Status ===");
 
+                int numOfRejected = CountByStatus(status, Statuses.Rejected, validRecords);
+                int numOfApproved = CountByStatus(status, Statuses.Approved, validRecords);
+                int numOfPending = CountByStatus(status, Statuses.Pending, validRecords);
 
+                Console.WriteLine($"Rejected: {numOfRejected}");
+                Console.WriteLine($"Approved: {numOfApproved}");
+                Console.WriteLine($"Pending: {numOfPending}");
 
 
             }
