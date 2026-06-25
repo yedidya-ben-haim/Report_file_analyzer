@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Net.NetworkInformation;
 
 
 
@@ -224,6 +225,18 @@ namespace ReportFileAnalyzer
         }
 
 
+        static void DisplayStatusCounts(Statuses[] statusArry, int validRecords)
+        {
+            Console.WriteLine("\n===Reports by Status ===");
+
+            int numOfRejected = CountByStatus(statusArry, Statuses.Rejected, validRecords);
+            int numOfApproved = CountByStatus(statusArry, Statuses.Approved, validRecords);
+            int numOfPending = CountByStatus(statusArry, Statuses.Pending, validRecords);
+
+            Console.WriteLine($"Rejected: {numOfRejected}");
+            Console.WriteLine($"Approved: {numOfApproved}");
+            Console.WriteLine($"Pending: {numOfPending}");
+        }
 
 
         static void Main()
@@ -242,10 +255,11 @@ namespace ReportFileAnalyzer
             {
                 int validRecords = ProcessReports(alllines, unitName, reportType, priority, score, status);
 
+                // Basic Statistics
                 DisplayBasicStatistics(score, validRecords);
 
-
-
+                // Count By Status
+                DisplayStatusCounts(status, validRecords);
 
                 // Count By Type
                 Console.WriteLine("\n===Reports by Type ===");
@@ -260,16 +274,8 @@ namespace ReportFileAnalyzer
                 Console.WriteLine($"Recon: {numOfRecon}");
                 Console.WriteLine($"Intel: {numOfIntel}");
 
-                // Count By Status
-                Console.WriteLine("\n===Reports by Status ===");
-
-                int numOfRejected = CountByStatus(status, Statuses.Rejected, validRecords);
-                int numOfApproved = CountByStatus(status, Statuses.Approved, validRecords);
-                int numOfPending = CountByStatus(status, Statuses.Pending, validRecords);
-
-                Console.WriteLine($"Rejected: {numOfRejected}");
-                Console.WriteLine($"Approved: {numOfApproved}");
-                Console.WriteLine($"Pending: {numOfPending}");
+                
+                
 
 
             }
